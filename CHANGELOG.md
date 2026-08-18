@@ -47,3 +47,11 @@
 - Persistência centralizada com normalização de save.
 - Hook de progresso e energia.
 - Remoção do polling de localStorage.
+
+## 1.5.1
+
+### GitHub Actions / Android
+- Adicionado `.github/workflows/build-apk.yml`.
+- O workflow pode ser executado manualmente pela aba Actions e também roda em push/pull request para `main`.
+- Instala Node.js e Java 17, executa os testes, gera o build Vite, cria/sincroniza a plataforma Android do Capacitor e compila `app-debug.apk` com Gradle.
+- O APK é publicado como artefato `InfoQuiz-Android-APK` por 30 dias.

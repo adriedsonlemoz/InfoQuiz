@@ -183,3 +183,16 @@ tests/                         # testes com node --test
 - Gerar e versionar o projeto nativo `android/` após `cap add android`.
 
 > React, Material UI, Babel, fontes e efeitos sonoros não são carregados por CDN. Depois do build, os assets usados pelo app ficam locais.
+
+## Gerar APK pelo GitHub Actions
+
+O projeto inclui `.github/workflows/build-apk.yml`.
+
+1. Envie o projeto completo para a branch `main` do GitHub.
+2. Abra a aba **Actions** do repositório.
+3. Selecione **Build Android APK**.
+4. Clique em **Run workflow** para gerar manualmente, ou faça um novo push para `main`.
+5. Quando a execução terminar, abra-a e baixe o artefato **InfoQuiz-Android-APK**.
+6. Dentro do artefato estará `InfoQuiz-debug.apk`, pronto para instalação e testes em Android.
+
+> Este workflow gera um APK **debug**, adequado para instalar e testar. Publicação na Play Store exige uma versão release assinada (APK/AAB) e configuração segura da chave de assinatura.
