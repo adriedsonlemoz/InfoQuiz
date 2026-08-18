@@ -196,3 +196,5 @@ O projeto inclui `.github/workflows/build-apk.yml`.
 6. Dentro do artefato estará `InfoQuiz-debug.apk`, pronto para instalação e testes em Android.
 
 > Este workflow gera um APK **debug**, adequado para instalar e testar. Publicação na Play Store exige uma versão release assinada (APK/AAB) e configuração segura da chave de assinatura.
+
+> **v1.5.2:** a plataforma Android é criada antes da configuração do cache Gradle. Isso evita a falha do `setup-java` quando `android/` ainda não existe no repositório.

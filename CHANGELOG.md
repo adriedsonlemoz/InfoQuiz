@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.5.2
+
+### Correção do GitHub Actions / APK
+- Corrigida a ordem do workflow de Android: a plataforma `android/` agora é criada antes do `actions/setup-java` com cache do Gradle.
+- Evita o erro `No file ... matched to [**/*.gradle*, **/gradle-wrapper.properties ...]` em repositórios que ainda não versionam a pasta nativa Android.
+- Runner fixado em `ubuntu-24.04` para reduzir variações de imagem durante a geração do APK.
+- Mantidos testes, build Vite, sincronização do Capacitor, `assembleDebug` e upload de `InfoQuiz-debug.apk`.
+
 ## 1.5.0
 
 - Efeitos sonoros remotos substituídos por arquivos locais em `public/audio/`.
