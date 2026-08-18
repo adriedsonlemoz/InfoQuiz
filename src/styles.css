@@ -1,0 +1,54 @@
+html, body, #root { min-height: 100%; }
+body {
+  margin: 0;
+  background-color: #050a0f;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+* { box-sizing: border-box; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #00bcd4; }
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  50% { transform: translateX(8px); }
+  75% { transform: translateX(-8px); }
+  100% { transform: translateX(0); }
+}
+.anim-shake { animation: shake 0.4s ease-in-out; }
+
+@keyframes shine {
+  0% { left: -50%; }
+  20% { left: 150%; }
+  100% { left: 150%; }
+}
+.card-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+  transform: skewX(-25deg);
+  animation: shine 4s infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media print {
+  body { background-color: #fff !important; padding: 0 !important; }
+  .no-print { display: none !important; }
+  .print-area {
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 40px !important;
+    width: 100% !important;
+  }
+}
