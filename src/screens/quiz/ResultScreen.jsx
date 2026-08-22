@@ -54,27 +54,27 @@ export default function ResultScreen({ data, setPlayerData, setScreen, gameConfi
         setGameResults((current) => ({ ...current, finalized: true }));
     }, []);
 
-    let titleColor = isApproved ? '#00e676' : '#ff1744';
-    if (!isAvaliacao) titleColor = '#00bcd4';
-    if (gameConfig.cat === 'revisao') titleColor = '#8a2be2';
+    let titleColor = isApproved ? '#4ade80' : '#fb7185';
+    if (!isAvaliacao) titleColor = '#38bdf8';
+    if (gameConfig.cat === 'revisao') titleColor = '#a78bfa';
 
     let msg = isApproved ? 'APROVADO!' : 'REPROVADO.';
     let subMsg = isApproved ? 'Módulo concluído com sucesso.' : 'Tente revisar o material e faça novamente.';
 
     if (!isAvaliacao) { msg = 'FIM DA PRÁTICA'; subMsg = 'Belo treino! Pronto para a avaliação?'; }
     if (gameConfig.cat === 'revisao') { msg = 'MEMÓRIA ATUALIZADA'; subMsg = 'Erros revisados!'; }
-    if (vidas <= 0 && isAvaliacao) { msg = 'FALHA NO SISTEMA'; subMsg = 'Você perdeu todas as vidas antes de concluir.'; }
+    if (vidas <= 0 && isAvaliacao) { msg = 'TENTATIVA ENCERRADA'; subMsg = 'As vidas acabaram nesta tentativa. Revise o conteúdo e tente novamente.'; }
 
     return (
         <Box mt={3} textAlign="center">
             <Typography variant="h5" color="text.secondary" fontWeight="bold" mb={2}>RELATÓRIO DO MÓDULO</Typography>
 
-            <Paper sx={{ p: 4, mb: 4, bgcolor: 'rgba(0,0,0,0.6)', border: '2px solid', borderColor: titleColor, boxShadow: `0 0 20px ${titleColor}40` }}>
+            <Paper sx={{ p: 4, mb: 4, background: 'linear-gradient(160deg, rgba(21,53,75,0.98), rgba(24,49,73,0.96))', border: '2px solid', borderColor: titleColor, boxShadow: `0 0 20px ${titleColor}40` }}>
                 <Typography fontSize="3rem" mb={2}>{isApproved || !isAvaliacao ? '🎓' : '📉'}</Typography>
                 <Typography variant="h4" fontWeight="bold" textTransform="uppercase" sx={{color: titleColor}} mb={1}>{msg}</Typography>
                 <Typography variant="body2" color="text.secondary" mb={3}>{subMsg}</Typography>
 
-                <Box bgcolor="#0b131c" p={2} borderRadius={2} border="1px solid #1e3a5f" mb={2}>
+                <Box bgcolor="rgba(24,49,73,0.94)" p={2} borderRadius={2} border="1px solid rgba(148,197,229,0.25)" mb={2}>
                     <Typography variant="caption" color="text.secondary" textTransform="uppercase">Pontuação Obtida</Typography>
                     <Typography variant="h3" fontWeight="bold" color="white">{score} <span style={{fontSize:'1rem', color:'#888'}}>/ {maxScore}</span></Typography>
 

@@ -23,7 +23,7 @@ export default function ReviewScreen({ gameResults, setScreen }) {
           const selectedText = answer?.selectedAnswer || (answer?.skipped ? 'Questão pulada' : answer?.timedOut ? 'Nenhuma — tempo esgotado' : 'Não registrada');
 
           return (
-            <Paper key={`${question.q}-${index}`} sx={{ p: 2, mb: 2, borderLeft: '4px solid #00bcd4', bgcolor: '#0b131c' }}>
+            <Paper key={`${question.q}-${index}`} sx={{ p: 2, mb: 2, borderLeft: '4px solid #38bdf8', bgcolor: 'rgba(24,49,73,0.94)' }}>
               <Box display="flex" justifyContent="space-between" alignItems="flex-start" gap={1} mb={1}>
                 <Typography fontWeight="500">{index + 1}. {question.q}</Typography>
                 {answers.length > 0 && <Chip label={status.label} color={status.color} size="small" />}
@@ -40,7 +40,7 @@ export default function ReviewScreen({ gameResults, setScreen }) {
               )}
 
               <Typography color="success.main" variant="body2" fontWeight="bold" mb={1}>✅ Resposta correta: {question.c}</Typography>
-              <Divider sx={{ my: 1, borderColor: '#1e3a5f' }} />
+              <Divider sx={{ my: 1, borderColor: 'rgba(148,197,229,0.2)' }} />
               <Typography variant="caption" color="text.secondary">{question.d}</Typography>
             </Paper>
           );

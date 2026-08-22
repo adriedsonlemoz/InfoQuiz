@@ -26,9 +26,10 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: '20.x'
+          cache: npm
 
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
 
       - name: Run tests
         run: npm test
@@ -36,8 +37,6 @@ jobs:
       - name: Build Vite app
         run: npm run build
 
-      # O projeto Android ainda não existe no repositório. Ele precisa ser
-      # criado antes de ativar o cache do Gradle no setup-java.
       - name: Create Android project when missing
         run: |
           if [ ! -d android ]; then
@@ -54,6 +53,9 @@ jobs:
       - name: Sync Capacitor Android
         run: npx cap sync android
 
+      - name: Apply Android version and offline policy
+        run: npm run android:prepare
+
       - name: Build debug APK
         working-directory: android
         run: |
@@ -63,12 +65,13 @@ jobs:
       - name: Prepare APK artifact
         run: |
           mkdir -p artifacts
-          cp android/app/build/outputs/apk/debug/app-debug.apk artifacts/InfoQuiz-debug.apk
+          APP_VERSION=$(node -p "require('./package.json').version")
+          cp android/app/build/outputs/apk/debug/app-debug.apk "artifacts/InfoQuiz-${APP_VERSION}-debug.apk"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: InfoQuiz-Android-APK
-          path: artifacts/InfoQuiz-debug.apk
+          path: artifacts/*.apk
           if-no-files-found: error
           retention-days: 30

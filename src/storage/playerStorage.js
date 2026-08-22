@@ -4,7 +4,8 @@ import { createDefaultModuleProgress, normalizeModuleProgress } from '../progres
 import { MAX_ENERGY } from '../energy/energy.js';
 
 export const PLAYER_STORAGE_KEY = 'infoquiz_v2';
-export const PLAYER_SAVE_VERSION = 2;
+export const PLAYER_SAVE_VERSION = 3;
+export const BACKUP_FORMAT = 'infoquiz-player-backup';
 
 export function createDefaultPlayerData() {
   return {
@@ -29,6 +30,8 @@ export function normalizePlayerData(raw) {
     ...defaults,
     ...raw,
     saveVersion: PLAYER_SAVE_VERSION,
+    nome: typeof raw.nome === 'string' ? raw.nome.slice(0, 80) : defaults.nome,
+    avatar: typeof raw.avatar === 'string' ? raw.avatar.slice(0, 8) : defaults.avatar,
     energia: Number.isFinite(raw.energia) ? Math.min(MAX_ENERGY, Math.max(0, raw.energia)) : defaults.energia,
     ultimaVezEnergia: Number.isFinite(raw.ultimaVezEnergia) ? raw.ultimaVezEnergia : defaults.ultimaVezEnergia,
     modulosDesbloqueados: { ...defaults.modulosDesbloqueados, ...(raw.modulosDesbloqueados || {}) },
@@ -54,4 +57,29 @@ export function savePlayerData(data) {
 
 export function clearPlayerData() {
   localStorage.removeItem(PLAYER_STORAGE_KEY);
+}
+
+export function createPlayerBackup(data, appVersion = 'unknown') {
+  return JSON.stringify({
+    format: BACKUP_FORMAT,
+    formatVersion: 1,
+    appVersion,
+    exportedAt: new Date().toISOString(),
+    player: normalizePlayerData(data),
+  }, null, 2);
+}
+
+export function parsePlayerBackup(text) {
+  let parsed;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    throw new Error('O arquivo não contém um JSON válido.');
+  }
+
+  if (!parsed || parsed.format !== BACKUP_FORMAT || !parsed.player) {
+    throw new Error('Este arquivo não é um backup válido do InfoQuiz.');
+  }
+
+  return normalizePlayerData(parsed.player);
 }

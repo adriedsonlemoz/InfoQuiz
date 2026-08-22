@@ -39,7 +39,7 @@ export default function CourseLessonScreen({ activeModuleId, setActiveModuleId, 
 
   return (
     <Box sx={{ width: '100%', maxWidth: '800px', p: { xs: 1, sm: 2 } }}>
-      <Paper sx={{ p: { xs: 3, md: 4 }, mb: 3, borderTop: '4px solid #8a2be2', bgcolor: '#0b131c' }}>
+      <Paper sx={{ p: { xs: 3, md: 4 }, mb: 3, borderTop: '4px solid #a78bfa', bgcolor: 'rgba(24,49,73,0.96)' }}>
         <Box display="flex" alignItems="center" gap={2} mb={3}>
           <Typography fontSize="3.5rem" lineHeight={1}>{activeModule.icon}</Typography>
           <Box>
@@ -49,7 +49,7 @@ export default function CourseLessonScreen({ activeModuleId, setActiveModuleId, 
         </Box>
 
         <Typography variant="body1" color="text.primary" sx={{ mb: 4, fontSize: '1.1rem', lineHeight: 1.7 }}>{lesson.intro}</Typography>
-        <Divider sx={{ mb: 4, borderColor: '#1e3a5f' }} />
+        <Divider sx={{ mb: 4, borderColor: 'rgba(148,197,229,0.2)' }} />
 
         {lesson.secoes?.map((section, index) => (
           <Box key={`${activeModuleId}-${index}`} sx={{ mb: 4 }}>
@@ -59,15 +59,15 @@ export default function CourseLessonScreen({ activeModuleId, setActiveModuleId, 
         ))}
 
         {lesson.tutorial && (
-          <Paper sx={{ mt: 5, p: 3, bgcolor: '#001b1e', border: '1px solid #00bcd4', borderRadius: 3 }}>
+          <Paper sx={{ mt: 5, p: 3, bgcolor: 'rgba(15,71,64,0.42)', border: '1px solid rgba(74,222,128,0.48)', borderRadius: 3 }}>
             <Typography variant="subtitle2" color="success.main" textTransform="uppercase" fontWeight="bold" mb={1}>🛠️ Mini-Tutorial Prático</Typography>
             <Typography variant="h6" color="white" fontWeight="bold" mb={2}>{lesson.tutorial.titulo}</Typography>
-            <Divider sx={{ mb: 2, borderColor: 'rgba(0,188,212,0.3)' }} />
+            <Divider sx={{ mb: 2, borderColor: 'rgba(74,222,128,0.25)' }} />
             <List dense>
               {lesson.tutorial.passos.map((step, index) => (
                 <ListItem key={index} sx={{ px: 0, alignItems: 'flex-start' }}>
                   <ListItemIcon sx={{ minWidth: 35, color: 'success.main', mt: 0.5 }}>▶</ListItemIcon>
-                  <ListItemText primary={step} primaryTypographyProps={{ style: { color: '#90caf9', fontSize: '1rem', lineHeight: 1.5 } }} />
+                  <ListItemText primary={step} primaryTypographyProps={{ style: { color: '#d8ecf8', fontSize: '1rem', lineHeight: 1.5 } }} />
                 </ListItem>
               ))}
             </List>

@@ -4,9 +4,9 @@ import { MODULES } from '../../data/modules.js';
 export default function CourseHomeScreen({ setScreen, setActiveModuleId, unlockedModules, onBackToQuiz }) {
   return (
     <Box sx={{ width: '100%', maxWidth: '600px', p: { xs: 1, sm: 2 } }}>
-      <Paper elevation={12} sx={{ p: 3, mb: 3, textAlign: 'center', background: 'linear-gradient(45deg, #004d40, #0b131c)', borderBottom: '3px solid #00bcd4' }}>
+      <Paper elevation={12} sx={{ p: 3, mb: 3, textAlign: 'center', background: 'linear-gradient(135deg, rgba(22,101,52,0.62), rgba(30,64,89,0.92))', borderBottom: '3px solid #4ade80' }}>
         <Typography variant="h4" fontWeight={900} color="primary" sx={{ mb: 1, textTransform: 'uppercase' }}>📖 Material de Estudo</Typography>
-        <Typography variant="subtitle1" color="text.secondary">Estude a teoria para destravar as provas.</Typography>
+        <Typography variant="subtitle1" color="text.secondary">Estude a teoria e os exemplos antes de fazer as avaliações.</Typography>
       </Paper>
 
       <Grid container spacing={1.5} mb={3}>
@@ -25,9 +25,9 @@ export default function CourseHomeScreen({ setScreen, setActiveModuleId, unlocke
                   height: '100%',
                   cursor: isUnlocked ? 'pointer' : 'not-allowed',
                   opacity: isUnlocked ? 1 : 0.5,
-                  border: isUnlocked ? '1px solid #1e3a5f' : '1px dashed #333',
+                  border: isUnlocked ? '1px solid rgba(148,197,229,0.28)' : '1px dashed rgba(148,197,229,0.2)',
                   transition: '0.2s',
-                  '&:hover': isUnlocked ? { borderColor: 'primary.main', bgcolor: 'rgba(0,188,212,0.05)', transform: 'scale(1.02)' } : {},
+                  '&:hover': isUnlocked ? { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.07)', transform: 'scale(1.02)' } : {},
                 }}
                 onClick={() => {
                   if (!isUnlocked) return;

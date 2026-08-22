@@ -1,5 +1,37 @@
 # Changelog
 
+## 1.6.0
+
+### Conteúdo e avaliações
+- Banco ampliado de 60 para 180 questões: 15 por módulo e sorteio de 5 por avaliação.
+- Revisão factual das perguntas e explicações, incluindo Wi-Fi, IP, HTTPS, SQL, chaves primárias/estrangeiras, SaaS e o histórico do termo “bug”.
+- Materiais explicativos dos 12 módulos reescritos com introduções mais claras, três seções de teoria e mini tutoriais práticos.
+- Texto de aprovação padronizado para a regra real: pelo menos 60% e uma vida restante.
+
+### Interface e experiência
+- Tema visual renovado com base azul/verde, reduzindo o uso de preto puro.
+- Tela de avaliação compactada para caber melhor em celulares; alternativas passam a ocupar grade 2×2.
+- Feedback de resposta usa cores menos agressivas e backdrop opaco para evitar flashes por trás do diálogo.
+- Ações 50/50, +10s e Pular recebem efeito sonoro neutro próprio.
+- Mensagens de resultado e ajuda revisadas para ficarem mais claras.
+
+### Progresso e backup
+- Save atualizado para `saveVersion: 3`, preservando compatibilidade com o formato anterior.
+- Exportação do progresso para JSON e importação com validação de formato.
+- Backup inclui progresso, estatísticas, conquistas, energia e lista de revisão.
+
+### Android, offline e build
+- Versão atualizada para 1.6.0.
+- Script `scripts/prepare-android.mjs` sincroniza `versionName=1.6.0` e `versionCode=10600`.
+- O mesmo script remove a permissão `android.permission.INTERNET` do manifesto gerado antes do build.
+- Dependências diretas fixadas e `package-lock.json` adicionado; GitHub Actions passa a instalar com `npm ci`.
+- Nome do APK no artefato inclui a versão: `InfoQuiz-1.6.0-debug.apk`.
+
+### Qualidade
+- Testes de conteúdo validam 15 perguntas únicas e completas em cada módulo.
+- Testes de backup validam exportação, restauração e rejeição de arquivos inválidos.
+- Suíte total: 42 testes.
+
 ## 1.5.2
 
 ### Correção do GitHub Actions / APK

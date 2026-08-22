@@ -7,8 +7,8 @@ export default function AchievementsScreen({ data, setScreen }) {
 
     return (
         <Box mt={2} textAlign="center">
-            <Typography variant="h5" color="primary" align="center" fontWeight="bold">CERTIFICADOS</Typography>
-            <Typography variant="caption" color="text.secondary" align="center" display="block" mb={3}>Suas conquistas acadêmicas no curso</Typography>
+            <Typography variant="h5" color="primary" align="center" fontWeight="bold">CONQUISTAS E DIPLOMA</Typography>
+            <Typography variant="caption" color="text.secondary" align="center" display="block" mb={3}>Acompanhe marcos do curso e emita o diploma ao concluir os 12 módulos.</Typography>
             
             {/* BOTÃO DO DIPLOMA */}
             <Box mb={3}>
@@ -21,7 +21,7 @@ export default function AchievementsScreen({ data, setScreen }) {
                     sx={{ 
                         p: 2, 
                         fontSize: '1rem', 
-                        background: isDiplomado ? 'linear-gradient(45deg, #d4af37, #f1c40f)' : '#111', 
+                        background: isDiplomado ? 'linear-gradient(45deg, #d4af37, #f1c40f)' : '#1a3043', 
                         color: isDiplomado ? '#000' : '#555',
                         border: isDiplomado ? 'none' : '1px dashed #555'
                     }}
@@ -35,7 +35,7 @@ export default function AchievementsScreen({ data, setScreen }) {
                     const isUn = data.achievements[a.id];
                     return (
                         <Grid item xs={12} sm={6} key={a.id}>
-                            <Paper sx={{ p: 2, textAlign: 'center', height: '100%', border: '1px solid', borderColor: isUn ? 'primary.main' : '#333', bgcolor: isUn ? 'rgba(0,188,212,0.05)' : '#0b131c' }}>
+                            <Paper sx={{ p: 2, textAlign: 'center', height: '100%', border: '1px solid', borderColor: isUn ? 'primary.main' : 'rgba(148,197,229,0.22)', bgcolor: isUn ? 'rgba(56,189,248,0.07)' : '#183149' }}>
                                 <Typography fontSize="2.5rem" sx={{ filter: isUn ? 'none' : 'grayscale(1)', opacity: isUn ? 1 : 0.3, transition: '0.3s' }}>{a.icon}</Typography>
                                 <Typography variant="body2" fontWeight="bold" color={isUn ? 'primary.main' : 'text.secondary'} textTransform="uppercase" mt={1}>{a.name}</Typography>
                                 <Typography variant="caption" color="text.secondary" display="block" mt={0.5} lineHeight={1.2}>{isUn ? a.desc : '🔒 Bloqueado'}</Typography>

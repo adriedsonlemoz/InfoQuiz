@@ -1,7 +1,11 @@
 html, body, #root { min-height: 100%; }
 body {
   margin: 0;
-  background-color: #050a0f;
+  color: #f8fbff;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(56, 189, 248, 0.18), transparent 32rem),
+    radial-gradient(circle at 100% 20%, rgba(74, 222, 128, 0.12), transparent 28rem),
+    linear-gradient(155deg, #0f263a 0%, #15354b 50%, #102438 100%);
   overflow-x: hidden;
   overscroll-behavior-y: none;
   -webkit-tap-highlight-color: transparent;
@@ -11,17 +15,26 @@ body {
 * { box-sizing: border-box; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #00bcd4; }
+::-webkit-scrollbar-thumb { background: #4a6b82; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+
+.app-shell {
+  background: linear-gradient(180deg, rgba(29, 62, 87, 0.98), rgba(18, 43, 63, 0.98));
+  box-shadow: 0 24px 70px rgba(1, 12, 22, 0.38);
+}
+
+.quiz-viewport {
+  min-height: min(760px, calc(100dvh - 32px));
+}
 
 @keyframes shake {
   0% { transform: translateX(0); }
-  25% { transform: translateX(-8px); }
-  50% { transform: translateX(8px); }
-  75% { transform: translateX(-8px); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-4px); }
   100% { transform: translateX(0); }
 }
-.anim-shake { animation: shake 0.4s ease-in-out; }
+.anim-shake { animation: shake 0.32s ease-in-out; }
 
 @keyframes shine {
   0% { left: -50%; }
@@ -35,15 +48,19 @@ body {
   left: -50%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.18), transparent);
   transform: skewX(-25deg);
   animation: shine 4s infinite;
   z-index: 1;
   pointer-events: none;
 }
 
+@media (max-width: 480px) {
+  .app-container { border-radius: 0 !important; }
+}
+
 @media print {
-  body { background-color: #fff !important; padding: 0 !important; }
+  body { background: #fff !important; padding: 0 !important; }
   .no-print { display: none !important; }
   .print-area {
     box-shadow: none !important;

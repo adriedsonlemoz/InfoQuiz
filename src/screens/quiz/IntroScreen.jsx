@@ -10,7 +10,7 @@ export default function IntroScreen({ data, setPlayerData, setScreen }) {
 
     return (
         <Box textAlign="center" mt={4}>
-            <Typography variant="h3" fontWeight={900} sx={{ mb: 1, color: '#00bcd4' }}>
+            <Typography variant="h3" fontWeight={900} sx={{ mb: 1, color: '#38bdf8' }}>
                 Info<Box component="span" color="text.primary">Quiz</Box>
             </Typography>
             <Typography variant="subtitle1" color="text.secondary" mb={4}>Trilha de Aprendizado Tecnológico</Typography>
@@ -19,7 +19,7 @@ export default function IntroScreen({ data, setPlayerData, setScreen }) {
                 <Typography variant="caption" color="text.secondary" fontWeight="bold" display="block" mb={2} textTransform="uppercase">Selecione seu Avatar</Typography>
                 <Box display="flex" justifyContent="center" gap={1.5} mb={4} flexWrap="wrap">
                     {avatares.map(icon => (
-                        <Avatar key={icon} onClick={() => setAvatar(icon)} sx={{ bgcolor: avatar === icon ? 'primary.dark' : '#111', border: '2px solid', borderColor: avatar === icon ? 'primary.main' : '#333', cursor: 'pointer', width: 50, height: 50, fontSize: '1.5rem', transition: '0.2s', transform: avatar === icon ? 'scale(1.15)' : 'none' }}>
+                        <Avatar key={icon} onClick={() => setAvatar(icon)} sx={{ bgcolor: avatar === icon ? 'primary.dark' : '#193249', border: '2px solid', borderColor: avatar === icon ? 'primary.main' : 'rgba(148,197,229,0.28)', cursor: 'pointer', width: 50, height: 50, fontSize: '1.5rem', transition: '0.2s', transform: avatar === icon ? 'scale(1.15)' : 'none' }}>
                             {icon}
                         </Avatar>
                     ))}

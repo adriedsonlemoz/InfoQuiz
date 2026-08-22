@@ -1,13 +1,45 @@
-# InfoQuiz — React + Vite + Capacitor
+# InfoQuiz 1.6.0 — React + Vite + Capacitor
 
-SPA educacional gamificada em React, Vite e Capacitor, preparada para web, GitHub Pages e Android. A versão 1.5.0 torna os efeitos sonoros locais, extrai regras puras de energia/quiz e adiciona testes automatizados sem alterar o conteúdo do curso.
+InfoQuiz é um aplicativo educacional gamificado de informática com **12 módulos**, **180 questões revisadas** e material teórico próprio. O conteúdo, os sons e o progresso ficam locais, permitindo uso do APK sem conexão com a internet.
+
+## Destaques da 1.6.0
+
+- 15 questões por módulo (180 no total); cada avaliação sorteia 5.
+- Textos explicativos dos 12 módulos reescritos com conceitos, exemplos e mini tutoriais.
+- Correções conceituais em Wi-Fi, IP, HTTPS, SQL, chaves de banco de dados, SaaS, histórico do termo *bug* e outros tópicos.
+- Interface renovada com tons azul/verde e menos preto puro.
+- Tela da avaliação compactada para celulares, com respostas em grade 2×2 e sem rolagem durante a prova na maioria dos aparelhos.
+- Feedback de acerto/erro mais suave e fundo do diálogo opaco para evitar flashes de cor atrás.
+- Som neutro para 50/50, +10s e Pular; som de erro fica reservado a respostas incorretas.
+- Exportação e importação do progresso em JSON, mantendo compatibilidade com saves antigos.
+- Critério de aprovação padronizado na interface: **pelo menos 60% e uma vida restante**.
+- Android sincronizado com a versão do `package.json`: `1.6.0` → `versionCode 10600`.
+- O workflow remove a permissão Android `INTERNET` antes de compilar o APK.
+- Dependências diretas fixadas, `package-lock.json` versionado e GitHub Actions usando `npm ci`.
+- Suíte ampliada para **42 testes automatizados**.
 
 ## Desenvolvimento
 
+Requer Node.js 20 ou superior.
+
 ```bash
-npm install
+npm ci
 npm run dev
 ```
+
+Para validar a lógica:
+
+```bash
+npm test
+```
+
+Para testar e gerar a versão web:
+
+```bash
+npm run check
+```
+
+> O build local precisa das dependências npm instaladas. O aplicativo gerado não precisa de internet para acessar perguntas, aulas, sons ou progresso.
 
 ## Build web
 
@@ -15,39 +47,25 @@ npm run dev
 npm run build
 ```
 
-A saída final é gerada em `dist/` e pode ser publicada em hospedagens estáticas.
-
-
-## Testes automatizados
-
-A suíte usa o test runner nativo do Node e não depende de Vitest/Jest:
-
-```bash
-npm test
-```
-
-Para testar e depois gerar o build:
-
-```bash
-npm run check
-```
-
-Os testes cobrem recarga/consumo de energia, migração e progresso por módulo, limite/seleção de perguntas, cronômetro e registro de respostas.
+A saída é criada em `dist/`.
 
 ## Android com Capacitor
 
-Na primeira vez:
+Na primeira geração da plataforma:
 
 ```bash
-npm install
 npm run cap:add:android
+npm run android:prepare
 ```
 
 Depois de alterar o React:
 
 ```bash
 npm run cap:sync
+npm run android:prepare
 ```
+
+O comando `android:prepare` lê a versão do `package.json`, atualiza `versionName`/`versionCode` e aplica a política offline ao manifesto Android.
 
 Para abrir no Android Studio:
 
@@ -55,146 +73,98 @@ Para abrir no Android Studio:
 npm run cap:open
 ```
 
-Ou execute:
+## Gerar APK pelo GitHub Actions
 
-```bash
-npm run android
-```
+O workflow está em `.github/workflows/build-apk.yml` e pode rodar manualmente ou em push/pull request para `main`.
 
-## Estrutura atual
+Fluxo da automação:
+
+1. instala Node.js 20;
+2. instala dependências com `npm ci`;
+3. executa os testes;
+4. gera o build Vite;
+5. cria a plataforma Android se necessário;
+6. sincroniza o Capacitor;
+7. aplica versão Android e política sem permissão de internet;
+8. compila `assembleDebug`;
+9. publica `InfoQuiz-1.6.0-debug.apk` no artefato **InfoQuiz-Android-APK**.
+
+> O APK do workflow é **debug**, adequado para instalação e testes. Publicação em loja exige assinatura release e, preferencialmente, AAB.
+
+## Conteúdo e avaliação
+
+Cada um dos 12 módulos possui 15 questões. Uma avaliação usa 5 questões sorteadas e vale até 50 pontos. O módulo é concluído quando o aluno obtém pelo menos 60% e termina com uma ou mais vidas.
+
+Os módulos são:
+
+1. Fundamentos
+2. Hardware
+3. Windows
+4. Internet
+5. Microsoft Word
+6. Microsoft Excel
+7. Segurança Digital
+8. Redes de Computadores
+9. Lógica e Programação
+10. Banco de Dados
+11. Cloud Computing
+12. Inteligência Artificial
+
+O material de estudo possui introdução, três seções explicativas e um mini tutorial prático por módulo.
+
+## Progresso e backup
+
+O progresso continua salvo localmente na chave `infoquiz_v2`. A versão do save foi atualizada para 3, com normalização automática de dados antigos.
+
+No Painel:
+
+- **Exportar** cria um backup JSON do progresso;
+- **Importar** valida e restaura um backup do InfoQuiz;
+- **Zerar** remove somente o save do aplicativo.
+
+O backup inclui progresso dos módulos, estatísticas, conquistas, energia e revisão de erros.
+
+## Estrutura principal
 
 ```text
 src/
-├── App.jsx                    # orquestra o fluxo do quiz
-├── CourseApp.jsx              # orquestra o material teórico
-├── main.jsx                   # alterna entre curso e quiz
-├── config/
-│   └── theme.js
+├── App.jsx
+├── CourseApp.jsx
+├── config/theme.js
 ├── data/
 │   ├── achievements.js
 │   ├── courseContent.js
 │   ├── modules.js
 │   └── questions.js
-├── energy/
-│   └── energy.js
+├── energy/energy.js
 ├── hooks/
 │   ├── usePlayerData.js
 │   └── useQuizSession.js
-├── quiz/
-│   └── quizSession.js
-├── progress/
-│   └── moduleProgress.js
+├── progress/moduleProgress.js
+├── quiz/quizSession.js
 ├── screens/
 │   ├── course/
-│   │   ├── CourseHomeScreen.jsx
-│   │   └── CourseLessonScreen.jsx
 │   └── quiz/
-│       ├── AboutScreen.jsx
-│       ├── AchievementsScreen.jsx
-│       ├── DiplomaScreen.jsx
-│       ├── HubScreen.jsx
-│       ├── IntroScreen.jsx
-│       ├── ModuleStartScreen.jsx
-│       ├── QuizScreen.jsx
-│       ├── ResultScreen.jsx
-│       ├── ReviewScreen.jsx
-│       └── StatsScreen.jsx
-├── storage/
-│   └── playerStorage.js
+├── storage/playerStorage.js
 └── styles.css
 
-public/
-└── audio/                     # efeitos sonoros locais/offline
+scripts/
+└── prepare-android.mjs
 
-tests/                         # testes com node --test
+public/audio/
+├── action.wav
+├── error.wav
+├── success.wav
+└── victory.wav
+
+tests/
+├── content.test.js
 ├── energy.test.js
 ├── progress.test.js
-└── quizSession.test.js
+├── quizSession.test.js
+└── storage.test.js
 ```
 
-## Melhorias da migração React/Vite/Capacitor
+## Política offline
 
-- React e Material UI instalados por npm em vez de CDN.
-- Babel removido do navegador.
-- Curso e Quiz fazem parte da mesma SPA.
-- Fluxo Curso → Avaliação sem abrir uma segunda aba.
-- Progresso persistido e normalizado com `saveVersion`.
-- Energia isolada em hook próprio.
-- Revisão remove corretamente questões acertadas.
-- Pausa e saída não sobrepõem diálogos.
-- Reset remove apenas o save do InfoQuiz.
-- Botão de contato usa a API de clipboard quando disponível.
-
-## Refatoração 1.1.0
-
-- Perguntas, módulos, aulas e conquistas extraídos dos componentes principais.
-- Tema compartilhado.
-- Persistência centralizada.
-- Normalização de saves antigos.
-- Polling de `localStorage` removido do curso.
-
-## Refatoração 1.2.0
-
-- `App.jsx` reduzido de 705 para cerca de 120 linhas.
-- `CourseApp.jsx` reduzido de 229 para menos de 40 linhas.
-- Dez telas do quiz movidas para `src/screens/quiz/`.
-- Duas telas do curso movidas para `src/screens/course/`.
-- Corrigida a prop ausente do botão **Material de Estudo**.
-- Removido um trecho inválido que havia sobrado no `CourseApp.jsx` após a retirada do polling.
-- Corrigida contagem duplicada de avaliações ao abrir o gabarito e voltar ao resultado.
-- Adicionada proteção para módulo teórico inválido.
-- Imports relativos e sintaxe JS/JSX validados após a separação.
-
-## Refatoração 1.3.0
-
-- Motor da prova extraído de `QuizScreen.jsx` para `useQuizSession.js`.
-- Cronômetro, vidas, pontuação, streak, poderes, respostas e encerramento passam a ser responsabilidade do hook.
-- Timers e callbacks temporizados são cancelados ao sair da tela.
-- Finalização duplicada da mesma sessão é bloqueada.
-- Gabarito registra e mostra resposta marcada, timeout e questão pulada.
-- Embaralhamento passou a usar Fisher–Yates em vez de `sort(() => Math.random())`.
-
-## Refatoração 1.4.0
-
-- Save passou para `saveVersion: 2`.
-- Cada módulo possui tentativas, melhor nota, melhor percentual, última tentativa e estado de conclusão.
-- A migração identifica conclusões antigas pelo desbloqueio do módulo seguinte, sem inventar notas que não existiam no save anterior.
-- Painel e tela de início exibem progresso individual.
-- Estatísticas mostram conclusão geral e desempenho dos 12 módulos.
-- A aprovação exibida ao usuário agora informa explicitamente o mínimo de 60%.
-
-
-## Refatoração 1.5.0
-
-- Efeitos de acerto, erro e vitória migrados para `public/audio/`; não há mais áudio remoto.
-- Efeitos sonoros foram gerados localmente para evitar dependência externa e problemas de licença.
-- Regras de energia extraídas para `src/energy/energy.js`.
-- Consumo de energia centralizado em `consumeEnergy()`, removendo números mágicos e duplicação.
-- Regras puras da sessão extraídas para `src/quiz/quizSession.js`.
-- `useQuizSession` passa a reutilizar funções testáveis para embaralhamento, seleção, tempo e registro de respostas.
-- Adicionada suíte com 15 testes automatizados usando `node --test`.
-- Criados scripts `npm test` e `npm run check`.
-- Código-fonte e assets do app deixam de possuir URLs remotas, permitindo funcionamento offline após o build.
-
-## Próximos passos sugeridos
-
-- Criar histórico das últimas avaliações com data, nota e módulo.
-- Adicionar testes de componentes e fluxo completo quando as dependências npm estiverem disponíveis.
-- Gerar e versionar o projeto nativo `android/` após `cap add android`.
-
-> React, Material UI, Babel, fontes e efeitos sonoros não são carregados por CDN. Depois do build, os assets usados pelo app ficam locais.
-
-## Gerar APK pelo GitHub Actions
-
-O projeto inclui `.github/workflows/build-apk.yml`.
-
-1. Envie o projeto completo para a branch `main` do GitHub.
-2. Abra a aba **Actions** do repositório.
-3. Selecione **Build Android APK**.
-4. Clique em **Run workflow** para gerar manualmente, ou faça um novo push para `main`.
-5. Quando a execução terminar, abra-a e baixe o artefato **InfoQuiz-Android-APK**.
-6. Dentro do artefato estará `InfoQuiz-debug.apk`, pronto para instalação e testes em Android.
-
-> Este workflow gera um APK **debug**, adequado para instalar e testar. Publicação na Play Store exige uma versão release assinada (APK/AAB) e configuração segura da chave de assinatura.
-
-> **v1.5.2:** a plataforma Android é criada antes da configuração do cache Gradle. Isso evita a falha do `setup-java` quando `android/` ainda não existe no repositório.
+O código da aplicação não realiza `fetch`, Axios, WebSocket ou carregamento de recursos por URL externa. React, Material UI e os efeitos sonoros são empacotados/localizados no build. No APK, o workflow também remove a permissão Android de acesso à internet antes da compilação.

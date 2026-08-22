@@ -140,14 +140,14 @@ export function useQuizSession({
     const wrongOptions = shuffle(currentOptions.filter((option) => option !== currentQuestion.c));
     setPowers((current) => ({ ...current, p5050: true }));
     setHiddenOptions(wrongOptions.slice(0, 2));
-    playAudio('snd-erro');
+    playAudio('snd-acao');
   }, [currentOptions, currentQuestion, feedback, isPaused, playAudio, powers.p5050]);
 
   const useExtraTime = useCallback(() => {
     if (powers.pTime || isPaused || feedback) return;
     setPowers((current) => ({ ...current, pTime: true }));
     setTimeLeft((current) => current + 10);
-    playAudio('snd-acerto');
+    playAudio('snd-acao');
   }, [feedback, isPaused, playAudio, powers.pTime]);
 
   const skipQuestion = useCallback(() => {
@@ -158,7 +158,7 @@ export function useQuizSession({
       ...current,
       createAnswerRecord(currentQuestion, null, { skipped: true }),
     ]);
-    playAudio('snd-erro');
+    playAudio('snd-acao');
 
     const isLastQuestion = currentIndex + 1 >= questions.length;
     if (isLastQuestion) {
