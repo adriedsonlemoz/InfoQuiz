@@ -14,12 +14,12 @@ test('backup exporta e restaura dados normalizados', () => {
   player.energia = 3;
   player.stats.acertos = 12;
 
-  const backupText = createPlayerBackup(player, '1.6.0');
+  const backupText = createPlayerBackup(player, '1.6.1');
   const envelope = JSON.parse(backupText);
   const restored = parsePlayerBackup(backupText);
 
   assert.equal(envelope.format, BACKUP_FORMAT);
-  assert.equal(envelope.appVersion, '1.6.0');
+  assert.equal(envelope.appVersion, '1.6.1');
   assert.equal(restored.nome, 'Aluno Teste');
   assert.equal(restored.energia, 3);
   assert.equal(restored.stats.acertos, 12);

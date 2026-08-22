@@ -47,4 +47,33 @@ if (!manifest.includes('android.permission.INTERNET')) {
 }
 fs.writeFileSync(manifestPath, manifest);
 
-console.log(`Android preparado: versionName=${versionName}, versionCode=${versionCode}, INTERNET removida do manifesto final.`);
+// Aplica os ícones pré-gerados no projeto Android criado pelo Capacitor.
+// Removemos os XMLs adaptativos padrão para impedir que o launcher continue
+// usando o ícone do Capacitor em Android 8+; o sistema passa a usar os PNGs
+// ic_launcher/ic_launcher_round abaixo, aplicando a máscara do dispositivo.
+const densityDirs = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi'];
+for (const density of densityDirs) {
+  const sourceDir = path.join('resources', 'android-icons', density);
+  const targetDir = path.join('android', 'app', 'src', 'main', 'res', `mipmap-${density}`);
+  const launcherSource = path.join(sourceDir, 'ic_launcher.png');
+  const roundSource = path.join(sourceDir, 'ic_launcher_round.png');
+
+  if (!fs.existsSync(launcherSource) || !fs.existsSync(roundSource)) {
+    throw new Error(`Ícones Android ausentes para a densidade ${density}.`);
+  }
+
+  fs.mkdirSync(targetDir, { recursive: true });
+  fs.copyFileSync(launcherSource, path.join(targetDir, 'ic_launcher.png'));
+  fs.copyFileSync(roundSource, path.join(targetDir, 'ic_launcher_round.png'));
+}
+
+const adaptiveIconDir = path.join('android', 'app', 'src', 'main', 'res', 'mipmap-anydpi-v26');
+for (const fileName of ['ic_launcher.xml', 'ic_launcher_round.xml']) {
+  const adaptivePath = path.join(adaptiveIconDir, fileName);
+  if (fs.existsSync(adaptivePath)) fs.rmSync(adaptivePath);
+}
+
+console.log(
+  `Android preparado: versionName=${versionName}, versionCode=${versionCode}, ` +
+  'INTERNET removida e ícone InfoQuiz aplicado.',
+);

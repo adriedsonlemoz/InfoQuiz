@@ -1,8 +1,8 @@
-# InfoQuiz 1.6.0 — React + Vite + Capacitor
+# InfoQuiz 1.6.1 — React + Vite + Capacitor
 
 InfoQuiz é um aplicativo educacional gamificado de informática com **12 módulos**, **180 questões revisadas** e material teórico próprio. O conteúdo, os sons e o progresso ficam locais, permitindo uso do APK sem conexão com a internet.
 
-## Destaques da 1.6.0
+## Destaques da 1.6.1
 
 - 15 questões por módulo (180 no total); cada avaliação sorteia 5.
 - Textos explicativos dos 12 módulos reescritos com conceitos, exemplos e mini tutoriais.
@@ -13,17 +13,18 @@ InfoQuiz é um aplicativo educacional gamificado de informática com **12 módul
 - Som neutro para 50/50, +10s e Pular; som de erro fica reservado a respostas incorretas.
 - Exportação e importação do progresso em JSON, mantendo compatibilidade com saves antigos.
 - Critério de aprovação padronizado na interface: **pelo menos 60% e uma vida restante**.
-- Android sincronizado com a versão do `package.json`: `1.6.0` → `versionCode 10600`.
+- Novo ícone oficial do InfoQuiz aplicado à versão web e ao launcher do Android, com assets para todas as densidades.
+- Android sincronizado com a versão do `package.json`: `1.6.1` → `versionCode 10601`.
 - O workflow remove a permissão Android `INTERNET` antes de compilar o APK.
-- Dependências diretas fixadas, `package-lock.json` versionado e GitHub Actions usando `npm ci`.
-- Suíte ampliada para **42 testes automatizados**.
+- Dependências diretas fixadas. O GitHub Actions sincroniza os metadados do `package-lock.json` antes de executar `npm ci`, evitando falhas `EUSAGE` por lockfile incompleto/desatualizado.
+- Suíte ampliada para **44 testes automatizados**.
 
 ## Desenvolvimento
 
 Requer Node.js 20 ou superior.
 
 ```bash
-npm ci
+npm install
 npm run dev
 ```
 
@@ -65,7 +66,7 @@ npm run cap:sync
 npm run android:prepare
 ```
 
-O comando `android:prepare` lê a versão do `package.json`, atualiza `versionName`/`versionCode` e aplica a política offline ao manifesto Android.
+O comando `android:prepare` lê a versão do `package.json`, atualiza `versionName`/`versionCode`, aplica a política offline ao manifesto Android e instala o ícone oficial do InfoQuiz nos recursos `mipmap` do APK.
 
 Para abrir no Android Studio:
 
@@ -80,14 +81,14 @@ O workflow está em `.github/workflows/build-apk.yml` e pode rodar manualmente o
 Fluxo da automação:
 
 1. instala Node.js 20;
-2. instala dependências com `npm ci`;
+2. sincroniza o `package-lock.json` com `npm install --package-lock-only` e instala as dependências com `npm ci`;
 3. executa os testes;
 4. gera o build Vite;
 5. cria a plataforma Android se necessário;
 6. sincroniza o Capacitor;
-7. aplica versão Android e política sem permissão de internet;
+7. aplica versão Android, política sem permissão de internet e o ícone oficial;
 8. compila `assembleDebug`;
-9. publica `InfoQuiz-1.6.0-debug.apk` no artefato **InfoQuiz-Android-APK**.
+9. publica `InfoQuiz-1.6.1-debug.apk` no artefato **InfoQuiz-Android-APK**.
 
 > O APK do workflow é **debug**, adequado para instalação e testes. Publicação em loja exige assinatura release e, preferencialmente, AAB.
 
@@ -164,6 +165,11 @@ tests/
 ├── quizSession.test.js
 └── storage.test.js
 ```
+
+
+## Ícone do aplicativo
+
+O ícone oficial está salvo em `resources/app-icon.png`. Versões para navegador ficam em `public/` e os PNGs Android pré-gerados ficam em `resources/android-icons/`. Durante o GitHub Actions, `scripts/prepare-android.mjs` copia esses arquivos para todas as densidades `mipmap-*` e remove os ícones adaptativos padrão do Capacitor, garantindo que o APK use o ícone do InfoQuiz.
 
 ## Política offline
 

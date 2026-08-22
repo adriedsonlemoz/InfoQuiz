@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.6.1
+
+### Ícone e identidade visual
+- Novo ícone oficial do InfoQuiz adicionado em `resources/app-icon.png`.
+- Favicon, Apple Touch Icon e versões web 192/512 px adicionadas em `public/`.
+- Recursos Android `ic_launcher` e `ic_launcher_round` gerados para mdpi, hdpi, xhdpi, xxhdpi e xxxhdpi.
+- `scripts/prepare-android.mjs` agora aplica automaticamente o ícone no projeto Android criado pelo Capacitor e remove os XMLs adaptativos padrão para evitar que o ícone antigo continue sendo usado em Android 8+.
+
+### GitHub Actions / dependências
+- Corrigida a falha `npm ci` com código `EUSAGE` causada pelo `package-lock.json` incompleto da 1.6.0.
+- O workflow agora executa `npm install --package-lock-only --ignore-scripts` antes de `npm ci`, sincronizando o lockfile no runner antes da instalação limpa.
+- Mantidas versões diretas fixadas no `package.json`.
+
+### Android e versão
+- Versão atualizada para 1.6.1.
+- `versionName=1.6.1` e `versionCode=10601` aplicados automaticamente ao APK.
+- Nome do artefato passa a ser `InfoQuiz-1.6.1-debug.apk`.
+
+### Qualidade
+- Testes adicionados para validar versão do projeto e presença/assinatura PNG dos assets de ícone.
+- Suíte total: 44 testes.
+
 ## 1.6.0
 
 ### Conteúdo e avaliações

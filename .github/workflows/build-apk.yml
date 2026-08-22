@@ -28,6 +28,9 @@ jobs:
           node-version: '20.x'
           cache: npm
 
+      - name: Synchronize package lock
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+
       - name: Install locked dependencies
         run: npm ci --no-audit --no-fund
 
@@ -53,7 +56,7 @@ jobs:
       - name: Sync Capacitor Android
         run: npx cap sync android
 
-      - name: Apply Android version and offline policy
+      - name: Apply Android version, offline policy and icon
         run: npm run android:prepare
 
       - name: Build debug APK
